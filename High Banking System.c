@@ -1,20 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #define FILE_NAME "bank.dat"
   // Structure
 struct Account {
-    long long accNo;  
+    long long accNo;   
     char name[50];
     float balance;
 };
-       // Function Prototypes
+  // Function Prototypes
 void createAccount();
 void depositMoney();
 void withdrawMoney();
 void checkBalance();
-        // Main Function
+// Main Function
 int main() {
     int choice;
     while (1) {
@@ -41,7 +40,7 @@ void createAccount() {
     struct Account acc;
     FILE *fp = fopen(FILE_NAME, "ab");
     printf("Enter Account Number: ");
-    scanf("%lld", &acc.accNo);   // FIX
+    scanf("%lld", &acc.accNo);   
     printf("Enter Name: ");
     scanf(" %[^\n]", acc.name);
     printf("Enter Initial Balance: ");
@@ -50,7 +49,7 @@ void createAccount() {
     fclose(fp);
     printf("Account created successfully!\n");
 }
-  // Deposit Money
+    // Deposit Money
 void depositMoney() {
     long long accNo;   
     int found = 0;
@@ -78,7 +77,7 @@ void depositMoney() {
     if (!found) printf("Account not found!\n");
     fclose(fp);
 }
-  // Withdraw Money
+   // Withdraw Money
 void withdrawMoney() {
     long long accNo;   
     int found = 0;
@@ -90,8 +89,8 @@ void withdrawMoney() {
         return;
     }
     printf("Enter Account Number: ");
-    scanf("%lld", &accNo);   
-    while (fread(&acc, sizeof(acc), 1, fp)) {
+    scanf("%lld", &accNo);   // FIX
+    while (fread(&acc,sizeof(acc), 1, fp)) {
         if (acc.accNo == accNo) {
             printf("Enter amount to withdraw: ");
             scanf("%f", &amount);
@@ -99,10 +98,8 @@ void withdrawMoney() {
                 printf("Insufficient balance!\n");
             } else {
                 acc.balance -= amount;
-
                 fseek(fp, -sizeof(acc), SEEK_CUR);
                 fwrite(&acc, sizeof(acc), 1, fp);
-
                 printf("Amount withdrawn successfully!\n");
             }
             found = 1;
